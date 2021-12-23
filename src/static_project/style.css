@@ -1,0 +1,13 @@
+body{
+    background: #F8F8F8 !important;
+}
+
+.nav {
+    border-radius: 0px !important;
+    padding: 10px 0 10px 0 !important;
+    background-color: #3b5998 !important;
+}
+
+.mb-10{
+    margin-bottom: 10px !important;
+}
