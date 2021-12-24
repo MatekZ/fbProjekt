@@ -1,3 +1,5 @@
 $(document).ready(function () {
-    console.log('it is working from base!')
+    $('#show_form').click(function () {
+        $('.ui.modal').modal('show');
+    })
 })
