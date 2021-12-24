@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-my profile
+Mój profil
 {% endblock title %}
 
 {% block content %}
@@ -76,6 +76,10 @@ my profile
                                 {% endfor %}
                             </ul>
                         </td>
+                    </tr>
+                    <tr>
+                        <td>Liczba postów</td>
+                        <td>{{my_profile.posts_count}}</td>
                     </tr>
                     </tbody>
                 </table>
