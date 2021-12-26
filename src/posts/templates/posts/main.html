@@ -20,20 +20,39 @@ Posty
                             <input type="hidden" name='post_id' value={{obj.id}}>
                             <button type="submit" class="ui primary button">
                                 {% if profile not in obj.liked.all %}
-                                    <i class="thumbs up icon"></i>&nbsp;Like
+                                    <i class="thumbs up icon"></i>&nbsp;Lubię to!
                                 {% else %}
-                                    <i class="thumbs down icon"></i>&nbsp;Unlike
+                                    <i class="thumbs down icon"></i>&nbsp;Nie lubię!
                                 {% endif %}
                             </button>
                             &nbsp;{{obj.likes_count}}
                         </form>
                     </div>
+                    <div>
+                        {% if obj.comment_set.all %}
+                            {% for com in obj.comment_set.all %}
+                                <p>{{com.comment_content}}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <form action="" method="POST" class="ui form">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value={{obj.id}}>
+                        {{comment_form}}
+                        <button type="submit" class="ui primary button" name="submit_comment">comment</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>
         <div class="five wide column">
-            Form
-            {{profile}}
+            {% if post_add_ckeck %}
+                <div class="ui green message">Dodano post!</div>
+            {% endif %}
+            <form action="" method="POST" class="ui form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{post_form}}
+                <button type="submit" class="ui button positive" name="submit_post">Opublikuj</button>
+            </form>
         </div>
     </div>
 </div>
