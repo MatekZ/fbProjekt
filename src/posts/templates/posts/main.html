@@ -15,8 +15,8 @@ Posty
                 <div class="ui grid">
                     <div class="row">
                         {% if request.user == obj.author.user %}
-                            <a href=""><button class="ui button">Edytuj</button></a>
-                            <a href=""><button class="ui button">Usuń</button></a>
+                            <a href="{% url 'posts:edit_post' obj.pk %}"><button class="ui button">Edytuj</button></a>
+                            <a href="{% url 'posts:delete_post' obj.pk %}"><button class="ui button">Usuń</button></a>
                         {% endif %}
                     </div>
                 </div>

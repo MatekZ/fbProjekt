@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from .models import Post, Like
 from profiles.models import Profile
 from .forms import PostModelForm, CommentModelForm
-
+from django.views.generic import UpdateView, DeleteView
+from django.contrib import messages
 
 def posts_view(requset):
     query_set = Post.objects.all()
@@ -68,3 +70,33 @@ def like_view(request):
         like.save()
 
     return redirect('posts:main_post_view')
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'posts/delete.html'
+    success_url = reverse_lazy('posts:main_post_view')
+
+    def get_object(self, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        obj = Post.objects.get(pk=pk)
+
+        if not obj.author.user == self.request.user:
+            messages.warning(self.request, 'Błąd w usuwaniu posta. Nie jesteś jego autorem!')
+        return obj
+
+
+class PostEditView(UpdateView):
+    form_class = PostModelForm
+    model = Post
+    template_name = 'posts/update.html'
+    success_url = reverse_lazy('posts:main_post_view')
+
+    def form_valid(self, form):
+        profile = Profile.objects.get(user=self.request.user)
+
+        if form.instance.author == profile:
+            return super().form_valid(form)
+        else:
+            form.add_error(None, 'Błąd w edytowaniu posta. Nie jesteś jego autorem!')
+            return super().form_valid(form)
+
