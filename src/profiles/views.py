@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Profile
+from .models import Profile, Relationship
 from .forms import ProfileModelForms
 
 def my_profile_view(request):
@@ -20,3 +20,35 @@ def my_profile_view(request):
     }
 
     return render(request, 'profiles/myprofile.html', context)
+
+
+def invites_received_view(request):
+    my_profile = Profile.objects.get(user=request.user)
+    query_set = Relationship.objects.invites_received(my_profile)
+
+    context = {
+        'qs': query_set
+    }
+
+    return render(request, 'profiles/myinvites.html', context)
+
+def profiles_view(request):
+    user = request.user
+    query_set = Profile.objects.get_profiles(user)
+
+    context = {
+        'qs': query_set
+    }
+
+    return render(request, 'profiles/allprofiles.html', context)
+
+
+def available_invites_view(request):
+    user = request.user
+    query_set = Profile.objects.get_profiles_available_to_invite(user)
+
+    context = {
+        'qs': query_set
+    }
+
+    return render(request, 'profiles/available_to_add.html', context)
