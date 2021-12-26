@@ -15,3 +15,11 @@ body{
 .mt-10{
        margin-top: 10px !important;
 }
+
+.mb-5{
+    margin-bottom: 5px !important;
+}
+
+.comment-box {
+    display: none;
+}
