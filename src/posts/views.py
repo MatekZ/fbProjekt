@@ -6,7 +6,10 @@ from .forms import PostModelForm, CommentModelForm
 from django.views.generic import UpdateView, DeleteView
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+@login_required
 def posts_view(requset):
     query_set = Post.objects.all()
     profile = Profile.objects.get(user=requset.user)
@@ -44,7 +47,7 @@ def posts_view(requset):
 
     return render(requset, 'posts/main.html', context)
 
-
+@login_required
 def like_view(request):
     user = request.user
     if request.method == 'POST':
@@ -78,7 +81,7 @@ def like_view(request):
 
     return redirect('posts:main_post_view')
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'posts/delete.html'
     success_url = reverse_lazy('posts:main_post_view')
@@ -92,7 +95,7 @@ class PostDeleteView(DeleteView):
         return obj
 
 
-class PostEditView(UpdateView):
+class PostEditView(LoginRequiredMixin, UpdateView):
     form_class = PostModelForm
     model = Post
     template_name = 'posts/update.html'
