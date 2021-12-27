@@ -21,7 +21,7 @@ Wszystkie profile
             <div class="ten wide column">
                 <h3>{{obj.user}}</h3>
                 <p>{{obj.bio}}</p>
-                <button class="ui primary button mt-10 rel-btn">Zobacz profil</button>
+                <a href={{obj.get_absolute_url}}><button class="ui primary button mt-10 rel-btn">Zobacz profil</button></a>
                 <br>
                 {% if obj.user not in receiver_list and obj.user not in sender_list %}
                 <form action="{% url 'profiles:send_invite' %}" method="POST">

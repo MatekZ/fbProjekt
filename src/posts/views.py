@@ -5,6 +5,7 @@ from profiles.models import Profile
 from .forms import PostModelForm, CommentModelForm
 from django.views.generic import UpdateView, DeleteView
 from django.contrib import messages
+from django.http import JsonResponse
 
 def posts_view(requset):
     query_set = Post.objects.all()
@@ -66,8 +67,14 @@ def like_view(request):
         else:
             like.value = 'Like'
 
-        post_obj.save()
-        like.save()
+            post_obj.save()
+            like.save()
+
+        data = {
+            'value': like.value,
+            'like_count': post_obj.liked.all().count()
+        }
+        return JsonResponse(data, safe=False)
 
     return redirect('posts:main_post_view')
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Profile, Relationship
 from .forms import ProfileModelForms
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
 from django.db.models import Q
 
@@ -64,7 +64,7 @@ def reject_invite(request):
         receiver = Profile.objects.get(user=request.user)
         relationship = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         relationship.delete()
-        
+
     return redirect('profiles:invites_received_view')
 
 
@@ -90,11 +90,35 @@ def profiles_view(request):
     return render(request, 'profiles/allprofiles.html', context)
 
 
+class ProfilesDetailView(DetailView):
+    model = Profile
+    template_name = 'profiles/detailview.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(username__iexact=self.request.user)
+        profile = Profile.objects.get(user=user)
+        relation_receiver = Relationship.objects.filter(sender=profile)
+        relation_sender = Relationship.objects.filter(receiver=profile)
+        receiver_list = []
+        sender_list = []
+
+        for item in relation_receiver:
+            receiver_list.append(item.receiver.user)
+
+        for item in relation_sender:
+            sender_list.append(item.sender.user)
+
+        context["receiver_list"] = receiver_list
+        context["sender_list"] = sender_list
+        context["posts"] = self.get_object().get_posts()
+        context["posts_ckeck"] = True if len(self.get_object().get_posts()) > 0 else False
+
+        return context
+
 class ProfilesView(ListView):
     model = Profile
     template_name = 'profiles/allprofiles.html'
-
-    # context_object_name = 'qs'
 
     def get_queryset(self):
         query_set = Profile.objects.get_profiles(self.request.user)
