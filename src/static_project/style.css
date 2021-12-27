@@ -1,4 +1,4 @@
-body{
+body {
     background: #F8F8F8 !important;
 }
 
@@ -8,18 +8,22 @@ body{
     background-color: #3b5998 !important;
 }
 
-.mb-10{
+.mb-10 {
     margin-bottom: 10px !important;
 }
 
-.mt-10{
-       margin-top: 10px !important;
+.mt-10 {
+    margin-top: 10px !important;
 }
 
-.mb-5{
+.mb-5 {
     margin-bottom: 5px !important;
 }
 
 .comment-box {
     display: none;
+}
+
+.rel-btn {
+    width: 200px !important;
 }
