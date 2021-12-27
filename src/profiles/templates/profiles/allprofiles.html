@@ -6,7 +6,9 @@ Wszystkie profile
 
 {% block content %}
 {% if qs_empty %}
-<h1>Brak profili do wyświetlenia</h1>
+<div class="ui segment">
+    <h1>Brak profili do wyświetlenia</h1>
+</div>
 {% endif %}
 
 {% for obj in object_list %}
@@ -16,7 +18,7 @@ Wszystkie profile
             <div class="three wide column">
                 <img class="ui small circular image" src={{obj.avatar.url}}>
             </div>
-            <div class="thirteen wide column">
+            <div class="ten wide column">
                 <h3>{{obj.user}}</h3>
                 <p>{{obj.bio}}</p>
                 <button class="ui primary button mt-10 rel-btn">Zobacz profil</button>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Profile, Relationship
 from .forms import ProfileModelForms
 from django.views.generic import ListView
@@ -29,12 +29,43 @@ def my_profile_view(request):
 def invites_received_view(request):
     my_profile = Profile.objects.get(user=request.user)
     query_set = Relationship.objects.invites_received(my_profile)
+    invites = list(map(lambda x: x.sender, query_set))
+    no_inv = False
+
+    if len(invites) == 0:
+        no_inv = True
 
     context = {
-        'qs': query_set
+        'qs': invites,
+        'no_inv': no_inv,
     }
 
     return render(request, 'profiles/myinvites.html', context)
+
+
+def accept_invite(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user=request.user)
+        relationship = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+
+        if relationship.status == 'send':
+            relationship.status = 'accepted'
+            relationship.save()
+
+    return redirect('profiles:invites_received_view')
+
+
+def reject_invite(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user=request.user)
+        relationship = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+        relationship.delete()
+        
+    return redirect('profiles:invites_received_view')
 
 
 def available_invites_view(request):
@@ -62,6 +93,7 @@ def profiles_view(request):
 class ProfilesView(ListView):
     model = Profile
     template_name = 'profiles/allprofiles.html'
+
     # context_object_name = 'qs'
 
     def get_queryset(self):
@@ -92,6 +124,7 @@ class ProfilesView(ListView):
 
         return context
 
+
 def send_invite(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
@@ -112,7 +145,8 @@ def remove_friend(request):
         sender = Profile.objects.get(user=user)
         receiver = Profile.objects.get(pk=pk)
 
-        relationship = Relationship.objects.get((Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender)))
+        relationship = Relationship.objects.get(
+            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender)))
         relationship.delete()
 
         return redirect(request.META.get('HTTP_REFERER'))
