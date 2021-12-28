@@ -69,16 +69,7 @@ def reject_invite(request):
 
     return redirect('profiles:invites_received_view')
 
-@login_required
-def available_invites_view(request):
-    user = request.user
-    query_set = Profile.objects.get_profiles_available_to_invite(user)
 
-    context = {
-        'qs': query_set
-    }
-
-    return render(request, 'profiles/available_to_add.html', context)
 
 @login_required
 def profiles_view(request):

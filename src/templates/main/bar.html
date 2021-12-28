@@ -2,7 +2,6 @@
 {% url 'posts:main_post_view' as posts_path %}
 {% url 'profiles:my_profile_view' as my_profile_path %}
 {% url 'profiles:invites_received_view' as my_invites_path %}
-{% url 'profiles:available_invites_view' as available_invites_path %}
 {% url 'profiles:profiles_view' as all_profiles_path %}
 
 <div class="ui inverted menu nav mb-10">
@@ -23,9 +22,6 @@
                     <div class="menu">
                         <a href="{{all_profiles_path}}" class="{% if request.path == all_profiles_path %}active{% endif %} item">
                             Wszystkie profile
-                        </a>
-                        <a href="{{available_invites_path}}" class="{% if request.path == available_invites_path %}active{% endif %} item">
-                            Profile do zaproszenia
                         </a>
                         <a href="{{my_invites_path}}" class="{% if request.path == my_invites_path %}active{% endif %} item">
                             Otrzymane zaproszenia &nbsp; <div class="ui green horizontal label">{{invites}}</div>
@@ -48,11 +44,11 @@
                 {{ request.user }}
             </a>
 
-            <a href="" class="ui item">
+            <a href="{% url 'account_logout' %}" class="ui item">
                 Wyloguj
             </a>
             {% else %}
-            <a href="" class="ui item">
+            <a href="{% url 'account_login' %}" class="ui item">
                 Zaloguj
             </a>
             {% endif %}

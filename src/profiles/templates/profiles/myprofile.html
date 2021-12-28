@@ -41,7 +41,9 @@ Mój profil
             <div class="six wide column">
                 <img class="ui medium rounded image" src="{{my_profile.avatar.url}}">
                 <div class="row mt-10">
-                    <button class="ui secondary button" id="show_form">Aktualizuj profil</button>
+                    <button class="ui secondary button mt-10 rel-btn" id="show_form">Aktualizuj profil</button>
+                    <br>
+                    <a href="{% url 'account_change_password' %}"><button class="ui secondary button mt-10 rel-btn" id="show_form">Zmień hasło</button></a>
                 </div>
             </div>
             <div class="ten wide column">

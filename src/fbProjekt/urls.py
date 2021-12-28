@@ -23,6 +23,7 @@ from .views import main_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_view, name='main_view'),
+    path('accounts/', include('allauth.urls')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
     path('posts/', include('posts.urls', namespace='posts')),
 ]
