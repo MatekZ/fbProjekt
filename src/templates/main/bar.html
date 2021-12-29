@@ -30,9 +30,10 @@
                 </div>
             </div>
             <div class="item">
-                <form action="" method="GET">
+                <form class="d-flex" action="{% url 'profiles:search_view' %}" method="POST">
+                    {% csrf_token %}
                     <div class="ui action left icon input">
-                        <input class="prompt" type="text" name='q' placeholder="Szukaj znajomych...">
+                        <input class="prompt" type="text" name='searched' placeholder="Szukaj znajomych...">
                         <i class="search icon"></i>
                         <button type='submit' class="ui button">Szukaj</button>
                     </div>

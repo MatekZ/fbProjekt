@@ -40,16 +40,18 @@ Posty
                     <form action="{% url 'posts:like_post_view' %}" method="POST" class='like_form' id='{{obj.id}}'>
                         {% csrf_token %}
                         <input type="hidden" name='post_id' value={{obj.id}}>
-                        <button type="submit" class="ui button like_btn{{obj.id}}">
+                        <button type="submit" class="ui primary button like_btn{{obj.id}} mt-10">
                             {% if profile not in obj.liked.all %}
                                 Lubię to!
                             {% else %}
                                 Nie lubię!
                             {% endif %}
                         </button>
+                        <i class="thumbs up icon"></i>
                         <span class="like_count{{obj.id}}">{{obj.likes_count}}</span>
                     </form>
                 </div>
+                <br>
                 <i class="comment icon"></i>
                 <span> {{ obj.comments_count }} komentarzy</span>
             </div>

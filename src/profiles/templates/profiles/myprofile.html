@@ -35,15 +35,21 @@ Mój profil
     {% if updated %}
     <div class="ui green message">Profil został zaktualizowany!</div>
     {% endif %}
-    <h3>Profil: {{request.user}}</h3>
+
+
     <div class="ui grid">
         <div class="row">
-            <div class="six wide column">
-                <img class="ui medium rounded image" src="{{my_profile.avatar.url}}">
-                <div class="row mt-10">
-                    <button class="ui secondary button mt-10 rel-btn" id="show_form">Aktualizuj profil</button>
-                    <br>
-                    <a href="{% url 'account_change_password' %}"><button class="ui secondary button mt-10 rel-btn" id="show_form">Zmień hasło</button></a>
+            <div class="ui segment">
+                <h3>Profil: {{request.user}}</h3>
+                <div class="six wide column">
+                    <img class="ui medium rounded image mt-10" src="{{my_profile.avatar.url}}">
+                    <div class="row mt-10">
+                        <button class="ui secondary button mt-10 rel-btn" id="show_form">Aktualizuj profil</button>
+                        <br>
+                        <a href="{% url 'account_change_password' %}">
+                            <button class="ui secondary button mt-10 rel-btn" id="show_form">Zmień hasło</button>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="ten wide column">

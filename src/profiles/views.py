@@ -7,6 +7,19 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
+@login_required
+def search_view(request):
+    # is_check = False
+    if request.method == "POST":
+        searched = request.POST['searched']
+        found = Profile.objects.filter(user__username__icontains=searched)
+        # is_check = True
+        return render(request, 'profiles/search.html', {'searched': searched, 'found': found})
+    else:
+        return redirect('posts:main_post_view')
+
+
 @login_required
 def my_profile_view(request):
     my_profile = Profile.objects.get(user=request.user)
@@ -27,6 +40,7 @@ def my_profile_view(request):
 
     return render(request, 'profiles/myprofile.html', context)
 
+
 @login_required
 def invites_received_view(request):
     my_profile = Profile.objects.get(user=request.user)
@@ -44,6 +58,7 @@ def invites_received_view(request):
 
     return render(request, 'profiles/myinvites.html', context)
 
+
 @login_required
 def accept_invite(request):
     if request.method == 'POST':
@@ -58,6 +73,7 @@ def accept_invite(request):
 
     return redirect('profiles:invites_received_view')
 
+
 @login_required
 def reject_invite(request):
     if request.method == 'POST':
@@ -68,7 +84,6 @@ def reject_invite(request):
         relationship.delete()
 
     return redirect('profiles:invites_received_view')
-
 
 
 @login_required
@@ -109,6 +124,7 @@ class ProfilesDetailView(LoginRequiredMixin, DetailView):
 
         return context
 
+
 class ProfilesView(LoginRequiredMixin, ListView):
     model = Profile
     template_name = 'profiles/allprofiles.html'
@@ -141,6 +157,7 @@ class ProfilesView(LoginRequiredMixin, ListView):
 
         return context
 
+
 @login_required
 def send_invite(request):
     if request.method == 'POST':
@@ -153,6 +170,7 @@ def send_invite(request):
 
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profiles:my_profile_view')
+
 
 @login_required
 def remove_friend(request):
