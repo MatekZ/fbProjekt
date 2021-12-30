@@ -15,13 +15,14 @@ class Post(models.Model):
         return str(self.post_content[:20])
 
     def likes_count(self):
-        return self.liked.all().count()
+         return self.liked.all().count()
 
     def comments_count(self):
         return self.comment_set.all().count()
 
-    class Meta:
-        ordering = ('-created',)
+    class Meta():
+        ordering = ('-updated',)
+
 
 
 class Comment(models.Model):

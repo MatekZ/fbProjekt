@@ -25,5 +25,10 @@ body {
 }
 
 .rel-btn {
-    width: 200px !important;
+    width: 220px !important;
 }
+
+.center {
+    text-align: center;
+}
+

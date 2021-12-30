@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
 @login_required
 def posts_view(requset):
     query_set = Post.objects.all()
@@ -36,6 +37,7 @@ def posts_view(requset):
             instance.post = Post.objects.get(id=requset.POST.get('post_id'))
             instance.save()
             comment_form = CommentModelForm()
+
 
     context = {
         'qs': query_set,
