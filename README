@@ -1,0 +1,17 @@
+Projekt portalu społecznościwego, podobnego do Facebook.
+Aplikacja napisana w języku Python, z wykorzystaniem frameworku Django.
+
+Funkcjonalności jakie udało się zaimplementować to między innymi:
+- logowanie, rejestracja (rejestracja z mailem)
+- możliwość zmiany hasła
+- dodawanie i usuwanie ze znajomych (wysyłanie, akceptowanie i odrzucanie zaproszeń)
+- przeglądanie profili innych użytkowników (ilość ich postów, znajomych, itd.)
+- wyszukiwanie użytkowników po username
+- aktualizowanie profilu (imię, nazwisko, opis, avatar, itd.)
+- dodawanie postów (teks i zdjecie)
+- edytowanie i usuwanie postów
+- komentowanie postów
+- likowanie postów
+
+
+Aplikacja napisana przez Mateusza Żołyniaka.
